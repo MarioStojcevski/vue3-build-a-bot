@@ -11,35 +11,29 @@
   </header>
   <main>
     <RobotBuilder />
+    <SearchParts />
   </main>
 </template>
 
 <script>
 import RobotBuilder from './components/builder/RobotBuilder.vue';
+import SearchParts from './components/search/SearchParts.vue';
 
 export default {
   name: 'App',
   components: {
     RobotBuilder,
+    SearchParts,
   },
 };
 </script>
 
-<style>
-body {
-  background: linear-gradient(to bottom, #555, #999 );
-  background-attachment: fixed;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
-
+<style scoped>
 main {
   margin: 0 auto;
   padding: 30px;
   background-color: white;
-  width: 1024;
+  width: 1024px;
   min-height: 300px;
 }
 
@@ -58,5 +52,16 @@ ul {
 .logo {
   vertical-align: middle;
   height: 30px;
+}
+</style>
+
+<style>
+body {
+  background: linear-gradient(to bottom, #555, #999 );
+  background-attachment: fixed;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 </style>

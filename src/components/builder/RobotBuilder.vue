@@ -1,40 +1,34 @@
 <template>
   <div class="content">
+    <RobotPreview :selectedRobot="selectedRobot" />
     <button class="add-to-cart" @click="addToCart">Add to Cart</button>
     <div class="top-row">
-      <div class="top part">
-        <div class="robot-head">
-          {{ selectedRobot.head.title }}
-          <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
-        </div>
-        <img alt="" :src="selectedRobot.head.src" title="head"/>
-        <button @click="selectPreviousHead" class="prev-selector">&#9668;</button>
-        <button @click="selectNextHead" class="next-selector">&#9658;</button>
+      <div :class="['top', 'part']">
+        <PartSelector
+          :parts="parts.heads"
+          @part-selected="part => selectedRobot.head = part"
+          position="top" />
       </div>
     </div>
     <div class="middle-row">
-      <div class="left part">
-        <img alt="" :src="selectedRobot.leftArm.src" title="left arm"/>
-        <button @click="selectPreviousLeftArm" class="prev-selector">&#9650;</button>
-        <button @click="selectNextLeftArm" class="next-selector">&#9660;</button>
-      </div>
-      <div class="center part">
-        <img alt="" :src="selectedRobot.torso.src" title="left arm"/>
-        <button @click="selectPreviousTorso" class="prev-selector">&#9668;</button>
-        <button @click="selectNextTorso" class="next-selector">&#9658;</button>
-      </div>
-      <div class="right part">
-        <img alt="" :src="selectedRobot.rightArm.src"  title="left arm"/>
-        <button @click="selectPreviousRightArm" class="prev-selector">&#9650;</button>
-        <button @click="selectNextRightArm" class="next-selector">&#9660;</button>
-      </div>
+      <PartSelector
+        :parts="parts.arms"
+        @part-selected="part => selectedRobot.leftArm = part"
+        position="left" />
+      <PartSelector
+        :parts="parts.torsos"
+        @part-selected="part => selectedRobot.torso = part"
+        position="center" />
+      <PartSelector
+        :parts="parts.arms"
+        @part-selected="part => selectedRobot.rightArm = part"
+        position="right" />
     </div>
     <div class="bottom-row">
-      <div class="bottom part">
-        <img alt="" :src="selectedRobot.base.src" title="left arm"/>
-        <button @click="selectPreviousBase" class="prev-selector">&#9668;</button>
-        <button @click="selectNextBase" class="next-selector">&#9658;</button>
-      </div>
+      <PartSelector
+        :parts="parts.bases"
+        @part-selected="part => selectedRobot.base = part"
+        position="bottom" />
     </div>
 
     <div>
@@ -60,6 +54,9 @@
 
 <script>
 import parts from '../../data/parts';
+import PartSelector from './PartSelector.vue';
+import RobotPreview from './RobotPreview.vue';
+import createdHookMixin from './created-hook-mixin';
 
 export default {
   name: 'RobotBuilder',
@@ -67,81 +64,32 @@ export default {
     return {
       parts,
       cart: [],
-      selectedHeadIndex: 0,
-      selectedLeftArmIndex: 0,
-      selectedRightArmIndex: 0,
-      selectedTorsoIndex: 0,
-      selectedBaseIndex: 0,
+      selectedRobot: {
+        head: {},
+        leftArm: {},
+        rightArm: {},
+        torso: {},
+        base: {},
+      },
     };
   },
-  computed: {
-    selectedRobot() {
-      return {
-        head: this.parts.heads[this.selectedHeadIndex],
-        leftArm: this.parts.arms[this.selectedLeftArmIndex],
-        rightArm: this.parts.arms[this.selectedRightArmIndex],
-        torso: this.parts.torsos[this.selectedTorsoIndex],
-        base: this.parts.bases[this.selectedBaseIndex],
-      };
-    },
-  },
+  mixins: [createdHookMixin],
   methods: {
-    selectNextHead() {
-      this.selectedHeadIndex = (this.selectedHeadIndex + 1) % this.parts.heads.length;
-    },
-    selectPreviousHead() {
-      this.selectedHeadIndex = (this.selectedHeadIndex - 1 + this.parts.heads.length)
-      % this.parts.heads.length;
-    },
-    selectNextLeftArm() {
-      this.selectedLeftArmIndex = (this.selectedLeftArmIndex + 1) % this.parts.arms.length;
-    },
-    selectPreviousLeftArm() {
-      this.selectedLeftArmIndex = (this.selectedLeftArmIndex - 1 + this.parts.arms.length)
-      % this.parts.arms.length;
-    },
-    selectNextRightArm() {
-      this.selectedRightArmIndex = (this.selectedRightArmIndex + 1) % this.parts.arms.length;
-    },
-    selectPreviousRightArm() {
-      this.selectedRightArmIndex = (this.selectedRightArmIndex - 1 + this.parts.arms.length)
-      % this.parts.arms.length;
-    },
-    selectNextTorso() {
-      this.selectedTorsoIndex = (this.selectedTorsoIndex + 1) % this.parts.torsos.length;
-    },
-    selectPreviousTorso() {
-      this.selectedTorsoIndex = (this.selectedTorsoIndex - 1 + this.parts.torsos.length)
-      % this.parts.torsos.length;
-    },
-    selectNextBase() {
-      this.selectedBaseIndex = (this.selectedBaseIndex + 1) % this.parts.bases.length;
-    },
-    selectPreviousBase() {
-      this.selectedBaseIndex = (this.selectedBaseIndex - 1 + this.parts.bases.length)
-      % this.parts.bases.length;
-    },
     addToCart() {
       const robot = this.selectedRobot;
       const cost = robot.head.cost
-      + robot.leftArm.cost
-      + robot.rightArm.cost
-      + robot.torso.cost
-      + robot.base.cost;
-
+                + robot.leftArm.cost
+                + robot.rightArm.cost
+                + robot.torso.cost
+                + robot.base.cost;
       this.cart.push({ ...robot, cost });
     },
   },
+  components: { PartSelector, RobotPreview },
 };
 </script>
 
-<style scoped>
-.part {
-  position: relative;
-  width:165px;
-  height:165px;
-  border: 3px solid #aaa;
-}
+<style lang="scss" scoped>
 .part img {
   width:165px;
 }
@@ -223,40 +171,5 @@ export default {
 }
 .right .next-selector {
   right: -3px;
-}
-
-.robot-head {
-  position: absolute;
-  top: -25px;
-  text-align: center;
-  width: 100%;
-}
-
-.sale {
-  color: red;
-  font-size: 0.8em;
-  font-weight: bold;
-}
-
-.content {
-  position: relative;
-}
-
-.add-to-cart {
-  position: absolute;
-  right: 30px;
-  width: 220px;
-  padding: 3px;
-  font-size: 16px;
-}
-
-td, th {
-  text-align: left;
-  padding: 5px;
-  padding-right: 20px;
-}
-
-.cost {
-  text-align: right;
 }
 </style>
