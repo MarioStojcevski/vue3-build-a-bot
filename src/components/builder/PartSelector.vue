@@ -163,4 +163,13 @@ export default {
 .highlight {
   border: 3px solid red !important;
 }
+.part {
+  position: relative;
+  width: 165px;
+  height: 165px;
+  border: 3px solid #aaa;
+}
+.part img {
+  width: 165px;
+}
 </style>

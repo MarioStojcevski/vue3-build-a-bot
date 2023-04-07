@@ -31,8 +31,8 @@ export default {
 <style scoped>
 .preview {
   position: absolute;
-  top: 100px;
-  right: 190px;
+  top: 133px;
+  right: 196px;
   width: 210px;
   height: 210px;
   padding: 5px;

@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <RobotPreview :selectedRobot="selectedRobot" />
+    <CollapsibleSection>
+      <RobotPreview :selectedRobot="selectedRobot" />
+    </CollapsibleSection>
     <button class="add-to-cart" @click="addToCart">Add to Cart</button>
     <div class="top-row">
       <div :class="['top', 'part']">
@@ -56,6 +58,7 @@
 import parts from '../../data/parts';
 import PartSelector from './PartSelector.vue';
 import RobotPreview from './RobotPreview.vue';
+import CollapsibleSection from '../shared/CollapsibleSection.vue';
 import createdHookMixin from './created-hook-mixin';
 
 export default {
@@ -85,14 +88,11 @@ export default {
       this.cart.push({ ...robot, cost });
     },
   },
-  components: { PartSelector, RobotPreview },
+  components: { PartSelector, RobotPreview, CollapsibleSection },
 };
 </script>
 
 <style lang="scss" scoped>
-.part img {
-  width:165px;
-}
 .top-row {
   display:flex;
   justify-content: space-around;
