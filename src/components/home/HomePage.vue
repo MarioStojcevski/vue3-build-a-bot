@@ -3,7 +3,10 @@
     <div>
       <img class="robot" src="../../assets/robot-home.png" aria-hidden="true" alt="" />
       <div class="get-started">
-        <a href="">Get started</a> building your first robot!
+        <router-link :to="{ name: 'RobotBuilder'}">
+          Get started
+        </router-link>
+         building your first robot!
       </div>
     </div>
   </div>

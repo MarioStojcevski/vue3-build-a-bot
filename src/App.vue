@@ -3,28 +3,23 @@
     <nav>
       <ul>
         <li class="nav-item">
-          <img class="logo" alt="" src="./assets/build-a-bot-logo.png" />
-          Build a bot
+          <router-link class="nav-link" :to="{name: 'Home'}">
+            <img class="logo" alt="" src="./assets/build-a-bot-logo.png" />
+            Build a bot
+          </router-link>
         </li>
       </ul>
     </nav>
   </header>
   <main>
-    <RobotBuilder />
-    <SearchParts />
+    <router-view></router-view>
   </main>
 </template>
 
 <script>
-import RobotBuilder from './components/builder/RobotBuilder.vue';
-import SearchParts from './components/search/SearchParts.vue';
 
 export default {
   name: 'App',
-  components: {
-    RobotBuilder,
-    SearchParts,
-  },
 };
 </script>
 
@@ -63,5 +58,10 @@ body {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
 }
 </style>
