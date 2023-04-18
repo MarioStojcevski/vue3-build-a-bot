@@ -3,9 +3,14 @@
     <nav>
       <ul>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{name: 'Home'}">
+          <router-link active-class="foo" class="nav-link" :to="{name: 'Home'}">
             <img class="logo" alt="" src="./assets/build-a-bot-logo.png" />
             Build a bot
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link active-class="foo" class="nav-link" :to="{name: 'RobotBuilder'}">
+            Build
           </router-link>
         </li>
       </ul>
@@ -63,5 +68,9 @@ body {
 .nav-link {
   text-decoration: none;
   color: #fff;
+}
+
+.foo {
+  color: #f00;
 }
 </style>

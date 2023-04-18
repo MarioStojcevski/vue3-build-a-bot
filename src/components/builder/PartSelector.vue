@@ -1,13 +1,14 @@
 <template>
     <div :class="[onSale, position, 'part']">
-        <img
+      <img
+        @click="selectPartInfo"
         :alt="selectedPart.title"
         :src="selectedPart.src"
         :title="selectedPart.title" />
         <button @click="selectPreviousPartIndex" class="prev-selector"></button>
         <button @click="selectNextPartIndex" class="next-selector"></button>
         <span class="sale" v-show="selectedPart.onSale">Sale!</span>
-    </div>
+      </div>
 </template>
 
 <script>
@@ -52,6 +53,15 @@ export default {
     },
     emitSelectedPart() {
       this.$emit('part-selected', this.selectedPart);
+    },
+    selectPartInfo() {
+      this.$router.push({
+        name: 'Parts',
+        params: {
+          partType: this.selectedPart.type,
+          id: +this.selectedPart.id,
+        },
+      });
     },
   },
 };
@@ -171,5 +181,6 @@ export default {
 }
 .part img {
   width: 165px;
+  cursor: pointer;
 }
 </style>
